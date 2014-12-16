@@ -1,13 +1,35 @@
 #This file contains the ball class which will hold the data on the ball in pong
-import math
-GRAVITY = -0.5
-
-class Ball:
+import math, os, pygame
+from paddle import*
+class BallSprite(pygame.sprite.Sprite):
     ''' Is the ball in a game of Pong '''
-    def __init__(position, velocity):
+    GRAVITY = -0.5
+    def __init__(self,position, velocity):
         ''' This funcion takes position and velocity as tuples. of the form x,y '''
+        pygame.sprite.Sprite.__init__(self)
+        self.src_image = pygame.image.load(os.path.join("pics","ball.jpg")).convert()
         self.position = position
         self.velocity = velocity
+    def update(self,dt):
+        # self.position = self.position[0]+self.velocity[0],self.position[1]+self.velocity[1]
+        if self.velocity[0] != 0:
+            self.rect += self.velocity[0]
+            for p in paddles:
+                if self.rect.colliderect(p.rect):
+                    if self.velocity[0] > 0:
+                        self.rect.right = p.rect.left
+                        self.velocity = self.velocity[0] *-1 , self.velocity[1]
+                    elif self.velocity[0] < 0:
+                        self.rect.left = p.rect.right
+                        self.velocity = self.velocity[0] *-1 , self.velocity[1]
+                    if self.velocity[1] > 0:
+                        self.rect.bottom = p.rect.top
+                        self.velocity = self.velocity[0], self.velocity[1]*-1
+                    elif self.velocity[1] < 0:
+                        self.rect.top = p.rect.bottom
+                        self.velocity = self.velocity[0], self.velocity[1]*-1
+
+        self.rect.center = self.position
     def will_collide(self, position):
         ''' This function determines if a ball will collide with a given position after one time step '''
         #This function is not atm going to be used, but is a template for collisions in xandy, which for pong are more useful
