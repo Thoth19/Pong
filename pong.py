@@ -16,7 +16,6 @@ while True:
         p1.move(p1.rect.left - 2, p1.rect.right, 16,128)
     if key[pygame.K_LEFT]:
         p1.move(p1.rect.left + 2, p1.rect.right, 16,128)
-    screen.fill((0,0,0))
     for p in paddles:
         pygame.draw.rect(screen, (255,255,0), p.rect)
     screen.fill((0,0,0))
