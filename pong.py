@@ -32,9 +32,9 @@ while True:
     for event in pygame.event.get():
         if event.type != pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
-            print mouse_pos
+            # print mouse_pos
             p1.rect.x = mouse_pos[0]
-            print p1.rect.x
+            # print p1.rect.x
     # for p in paddle_group:
     #     pygame.draw.rect(screen, (255,255,0), p.rect)
     # ball_group.update()
