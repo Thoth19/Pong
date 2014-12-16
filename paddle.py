@@ -1,4 +1,5 @@
 import math, os, pygame
+X_MAX = 800
 class PaddleSprite(pygame.sprite.Sprite):
     '''
     This is the user controlled paddle in a game of Pong
@@ -11,4 +12,9 @@ class PaddleSprite(pygame.sprite.Sprite):
         self.rect.y=position[1]
     def move(self, position):
         ''' moves to given position'''
-        self.rect=pygame.Rect(position[0], position [1], 16, 128)
+        if position[0] + 128 > X_MAX:
+            self.rect.x = X_MAX -128
+        else:
+            self.rect.x = position[0]
+    def update(self):
+        pass
