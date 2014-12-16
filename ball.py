@@ -1,32 +1,25 @@
 #This file contains the ball class which will hold the data on the ball in pong
 import math, os, pygame
 from paddle import*
+from pong import*
 class BallSprite(pygame.sprite.Sprite):
     ''' Is the ball in a game of Pong '''
-    GRAVITY = -0.5
+    # GRAVITY = -0.5
     def __init__(self,position, velocity):
         ''' This funcion takes position and velocity as tuples. of the form x,y '''
         pygame.sprite.Sprite.__init__(self)
-        self.src_image = pygame.image.load(os.path.join("pics","ball.jpg")).convert()
-        self.position = position
+        # self.src_image = pygame.image.load(os.path.join("pics","ball.jpg")).convert()
+        self.image = pygame.Surface([16,16])
+        self.image.fill((0,0,0))
+        # self.image.set_colorkey((0,0,0))
+        # pygame.draw.circle(self.image,(255,255,255), position, 8)
+        self.rect = self.image.get_rect()
+        self.rect.x = position[0]
+        self.rect.y = position[1]
         self.velocity = velocity
-    def update(self,dt):
-        # self.position = self.position[0]+self.velocity[0],self.position[1]+self.velocity[1]
-        if self.velocity[0] != 0:
-            self.rect += self.velocity[0]
-            for p in paddles:
-                if self.rect.colliderect(p.rect):
-                    if self.velocity[0] > 0:
-                        self.rect.right = p.rect.left
-                        self.velocity = self.velocity[0] *-1 , self.velocity[1]
-                    elif self.velocity[0] < 0:
-                        self.rect.left = p.rect.right
-                        self.velocity = self.velocity[0] *-1 , self.velocity[1]
-                    if self.velocity[1] > 0:
-                        self.rect.bottom = p.rect.top
-                        self.velocity = self.velocity[0], self.velocity[1]*-1
-                    elif self.velocity[1] < 0:
-                        self.rect.top = p.rect.bottom
-                        self.velocity = self.velocity[0], self.velocity[1]*-1
+    def update(self):
+        # self.image=pygame.transform.rotate(self.src_image,0)
+        self.rect.x += velocity[0]
+        self.rect.y += velocity[1]
 
-        self.rect.center = self.position
+
