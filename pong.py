@@ -29,8 +29,12 @@ while True:
     # if key[pygame.K_RIGHT]:
     #     p1.move(p1.rect.left + 2, p1.rect.top, 16,128)
     #     print "pushed right"
-    # mouse_pos = pygame.mouse.get_pos()
-    # p1.rect.x = mouse_pos[0]
+    for event in pygame.event.get():
+        if event.type != pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+            print mouse_pos
+            p1.rect.x = mouse_pos[0]
+            print p1.rect.x
     # for p in paddle_group:
     #     pygame.draw.rect(screen, (255,255,0), p.rect)
     # ball_group.update()
