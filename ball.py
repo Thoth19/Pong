@@ -33,3 +33,37 @@ class Ball:
                 return False
             else:
                 return True
+    def will_x_collide(self, x_line):
+        ''' This function uses the will_collide code to determine if the ball crossed a line in x '''
+        # we could do this in one function by specifying x or y as an argument, but that doesn't seem clean to me
+        ball_x = self.position[0]
+        ball_vx = ball.velocity[0]
+        intend_x = xline
+        vel_x_sign = math.copysign(1, ball_vx)
+        required_x = intend_x - ball_x
+        required_x_sign = math.copysign(1, required_x) 
+        if required_x_sign != vel_x_sign:
+            return False
+            #Don't bother doing anything if the ball is movingthe wrong way
+        else:
+            if ball_x+ball_vx < vel_x_sign * intend_x:
+                return False
+            else:
+                return True
+    def will_y_collide(self, y_line):
+        ''' This function uses the will_collide code to determine if the ball crossed a line in y '''
+        # we could do this in one function by specifying y or y as an argument, but that doesn't seem clean to me
+        ball_y = self.position[0]
+        ball_vy = ball.velocity[0]
+        intend_y = yline
+        vel_y_sign = math.copysign(1, ball_vy)
+        required_x = intend_x - ball_x
+        required_x_sign = math.copysign(1, required_x) 
+        if required_x_sign != vel_x_sign:
+            return False
+            #Don't bother doing anything if the ball is movingthe wrong way
+        else:
+            if ball_x+ball_vx < vel_x_sign * intend_x:
+                return False
+            else:
+                return True
