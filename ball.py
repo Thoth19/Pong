@@ -22,5 +22,8 @@ class BallSprite(pygame.sprite.Sprite):
         # self.image=pygame.transform.rotate(self.src_image,0)
         self.rect.x += self.velocity[0] * self.vel_dir[0]
         self.rect.y += self.velocity[1] * self.vel_dir[1]
-
+    def x_dir(self):
+        self.vel_dir = self.vel_dir[0] * -1, self.vel_dir[1]
+    def y_dir(self):
+        self.vel_dir = self.vel_dir[0], self.vel_dir[1] * -1
 
