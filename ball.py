@@ -20,14 +20,14 @@ class BallSprite(pygame.sprite.Sprite):
         self.velocity = abs(velocity[0]),abs(velocity[1])
         # velocity is actually speed
         self.vel_dir = copysign(1,velocity[0]),copysign(1,velocity[1])
-    def reset(self, position, velocity):
-        '''
-        resets the ball to position
-        '''
-        self.rect.x = position[0]
-        self.rect.y = position[1]
-        self.velocity = abs(velocity[0]),abs(velocity[1])
-        self.vel_dir = copysign(1,velocity[0]),copysign(1,velocity[1])
+    # def reset(self, position, velocity):
+    #     '''
+    #     resets the ball to position
+    #     '''
+    #     self.rect.x = position[0]
+    #     self.rect.y = position[1]
+    #     self.velocity = abs(velocity[0]),abs(velocity[1])
+    #     self.vel_dir = copysign(1,velocity[0]),copysign(1,velocity[1])
     def update(self):
         '''
         moves ball based on velocity and keeps velocity below maximum
