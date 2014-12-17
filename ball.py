@@ -20,7 +20,7 @@ class BallSprite(pygame.sprite.Sprite):
         self.velocity = abs(velocity[0]),abs(velocity[1])
         self.vel_dir = copysign(1,velocity[0]),copysign(1,velocity[1])
     def update(self):
-        self.velocity = max(self.velocity[0],MAX_SPEED),max(self.velocity[1],MAX_SPEED)
+        self.velocity = min(self.velocity[0],MAX_SPEED),min(self.velocity[1],MAX_SPEED)
         # self.image=pygame.transform.rotate(self.src_image,0)
         self.rect.x += self.velocity[0] * self.vel_dir[0]
         self.rect.y += self.velocity[1] * self.vel_dir[1]
