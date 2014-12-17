@@ -13,8 +13,12 @@ class PaddleSprite(pygame.sprite.Sprite):
     def move(self, position):
         ''' moves to given position'''
         if position[0] + 128 > X_MAX:
+            # The paddle itself is 128 pixels long
             self.rect.x = X_MAX -128
         else:
             self.rect.x = position[0]
     def update(self):
+        '''
+        Empty function so that all sprite groups can be updated
+        '''
         pass
