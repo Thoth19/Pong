@@ -1,8 +1,7 @@
 #This file contains the ball class which will hold the data on the ball in pong
 import os, pygame
-from paddle import*
 from math import *
-MAX_SPEED = 15
+MAX_SPEED = 3
 class BallSprite(pygame.sprite.Sprite):
     ''' Is the ball in a game of Pong '''
     # GRAVITY = -0.5
@@ -13,7 +12,7 @@ class BallSprite(pygame.sprite.Sprite):
         self.image = pygame.Surface([16,16])
         self.image.fill((0,0,0))
         # self.image.set_colorkey((0,0,0))
-        # pygame.draw.circle(self.image,(255,255,255), position, 8)
+        pygame.draw.circle(self.image,(255,255,255), position, 8)
         self.rect = self.image.get_rect()
         self.rect.x = position[0]
         self.rect.y = position[1]
@@ -26,6 +25,8 @@ class BallSprite(pygame.sprite.Sprite):
         self.rect.y += self.velocity[1] * self.vel_dir[1]
     def x_dir(self):
         self.vel_dir = self.vel_dir[0] * -1, self.vel_dir[1]
+        self.velocity = self.velocity[0] + 1, self.velocity[1]
     def y_dir(self):
         self.vel_dir = self.vel_dir[0], self.vel_dir[1] * -1
+        self.velocity = self.velocity[0], self.velocity[1] + 1
 
