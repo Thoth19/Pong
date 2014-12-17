@@ -40,36 +40,37 @@ while True:
         #ball will handle the collisions
         if ball.velocity[0] != 0:
             old_x = ball.rect.x
-            ball.rect.x += ball.velocity[0]
+            ball.rect.x += ball.velocity[0]*ball.vel_dir[0]
             for p in paddle_group:
                 if ball.rect.colliderect(p.rect):
-                    if ball.velocity[0] > 0:
+                    if ball.vel_dir[0] > 0:
                         if ball.rect.x < p.rect.x+43:
-                            ball.velocity = ball.velocity[0] *-1 -1, ball.velocity[1]
+                            ball.x_dir()
                         elif p.rect.x+43<=ball.rect.x<=p.rect.x+85:
-                            ball.velocity = 0,ball.velocity[1]
+                            ball.velocity = 0, ball.velocity[1]
                         # in the third case we doint vhange velocity
                         print 1
-                    elif ball.velocity[0] < 0:                        
+                    elif ball.vel_dir[0] < 0:                        
                         if ball.rect.x < p.rect.x+43:
-                            ball.velocity = ball.velocity[0] *-1 +1, ball.velocity[1]
+                            ball.x_dir()
                         elif p.rect.x+43<=ball.rect.x<=p.rect.x+85:
                             ball.velocity = 0,ball.velocity[1]
                         print 2
                     ball.rect.x = old_x
                 #if moving in x stops a y collision fix this
         if ball.velocity[1] != 0:
-            ball.rect.y += ball.velocity[1]
+            ball.rect.y += ball.velocity[1] * ball.vel_dir[1]
             for p in paddle_group:
                 if ball.rect.colliderect(p.rect):
-                    if ball.velocity[1] > 0:
+                    if ball.vel_dir[1] > 0:
                         ball.rect.bottom = p.rect.top
-                        ball.velocity = ball.velocity[0], ball.velocity[1]*-1
+                        ball.y_dir()
                         print 3
-                    elif ball.velocity[1] < 0:
+                    elif ball.vel_dir[1] < 0:
                         ball.rect.top = p.rect.bottom
-                        ball.velocity = ball.velocity[0], ball.velocity[1]*-1
+                        ball.y_dir()
                         print 4
+                    ball.velocity = ball.velocity[0], ball.velocity[1] + 1
         if ball.rect.y > lowest_ball.rect.y:
             lowest_ball = ball
     if p2.rect.x < lowest_ball.rect.x:
