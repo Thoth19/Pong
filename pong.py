@@ -111,11 +111,11 @@ while not(done):
         score += 1
         print "You win a point. Score is " + str(score)
         ball.reset((400,320),(1,3))
-    if score >5:
+    if score >=5:
         pygame.display.quit()
         print "You won the match"
         break
-    elif score <-5:
+    elif score =<-5:
         pygame.display.quit()
         print "You lost the match"
         break
