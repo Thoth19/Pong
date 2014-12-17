@@ -2,7 +2,7 @@ from ball import*
 from paddle import*
 from wall import*
 import math,os,pygame
-#Set up screen
+
 pygame.init()
 screen = pygame.display.set_mode([800,640])
 clock = pygame.time.Clock()
@@ -11,7 +11,7 @@ ball_group=pygame.sprite.Group()
 paddle_group = pygame.sprite.Group()
 wall_group = pygame.sprite.Group()
 all_sprites_group = pygame.sprite.Group()
-#Create actors
+
 p1 = PaddleSprite((32,32))
 paddle_group.add(p1)
 all_sprites_group.add(p1)
@@ -27,41 +27,50 @@ for i in range(50):
             wall = WallSprite((i*16,j*16))
             wall_group.add(wall)
             all_sprites_group.add(wall)
-    #creates walls around the game board, only on edges
+    #creates walls around the game board
 done = False
 score = 0 
 while not(done):
-    clock.tick(60) #limits FPS
-    screen.fill((255,0,0)) #resets screen. should only refresh changed bits
-
+    clock.tick(60)
+    screen.fill((255,0,0))
+    # key = pygame.key.get_pressed()
+    # if key[pygame.K_LEFT]:
+    #     p1.move(p1.rect.left - 2, p1.rect.top, 16,128)
+    # if key[pygame.K_RIGHT]:
+    #     p1.move(p1.rect.left + 2, p1.rect.top, 16,128)
+    #     print "pushed right"
     for event in pygame.event.get():
         if event.type != pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
+            # print mouse_pos
             p1.move(mouse_pos)
-            # Paddle 1 follows mouse
+            # print p1.rect.x
     lowest_ball = ball
     for ball in ball_group:
         #ball will handle the collisions
-        if ball.velocity[0] != 0: #if ball doesn't move in x, don't need to check
+        if ball.velocity[0] != 0:
             old_x = ball.rect.x
             ball.rect.x += ball.velocity[0]*ball.vel_dir[0]
-            for p in paddle_group: #check collisions
+            for p in paddle_group:
                 if ball.rect.colliderect(p.rect):
                     if ball.vel_dir[0] > 0:
                         if ball.rect.x < p.rect.x+43:
-                            ball.x_dir() #bounce back if in first third
+                            ball.x_dir()
                         elif p.rect.x+43<=ball.rect.x<=p.rect.x+85:
-                            ball.velocity = 0, ball.velocity[1] #bounce straight if in middle
+                            ball.velocity = 0, ball.velocity[1]
                         else:
-                            # bounce forward in last
+                            # ball.x_dir()
                             pass
-                        # in the third case we dont change velocity
-                    ball.rect.x = old_x # don't go through the paddle
+                        # in the third case we doint vhange velocity
+                        # print 1
+                    ball.rect.x = old_x
+                #if moving in x stops a y collision fix this
             hit_x = False
             for w in wall_group:
                 if ball.rect.colliderect(w.rect):
                     ball.x_dir()
-                    hit_x = True #matters for win/loss conditions
+                    hit_x = True
+                    # print "hit side"
                     break
         if ball.velocity[1] != 0:
             ball.rect.y += ball.velocity[1] * ball.vel_dir[1]
@@ -70,10 +79,11 @@ while not(done):
                     if ball.vel_dir[1] > 0:
                         ball.rect.bottom = p.rect.top
                         ball.y_dir()
+                        # print 3
                     elif ball.vel_dir[1] < 0:
                         ball.rect.top = p.rect.bottom
                         ball.y_dir()
-                    # always bounce in y when hit a paddle
+                        # print 4
                     if ball.velocity[0] == 0:
                         if ball.rect.x < p.rect.x+43:
                             ball.x_dir()
@@ -82,18 +92,14 @@ while not(done):
                             pass
                         else:
                             ball.velocity = ball.velocity[0] + 1, ball.velocity[1]
-            # for w in wall_group:
-            #     if ball.rect.colliderect(w.rect) and not(hit_x):
-            #     # if a side wall is hit, then we don't want to bounce down.
-            #     # since this code can never run, it doesn't matter, but stays in 
-            #         ball.y_dir()
-            #         break
-            #     else:
-            #         pass
+            for w in wall_group:
+                if ball.rect.colliderect(w.rect) and not(hit_x):
+                    ball.y_dir()
+                    break
+                else:
+                    pass
             ball.velocity = ball.velocity[0], ball.velocity[1] + 1
-            # speed increases over time
         if ball.rect.y > lowest_ball.rect.y:
-            # for Paddle two to chase it. In case there is eventually another ball
             lowest_ball = ball
 
     if ball.rect.y < 32:
@@ -118,10 +124,12 @@ while not(done):
         p2.move((p2.rect.x + min(5,abs(lowest_ball.rect.x-p2.rect.x)),p2.rect.y))
     elif p2.rect.x > lowest_ball.rect.x:
         p2.move((p2.rect.x - min(5,abs(lowest_ball.rect.x-p2.rect.x)),p2.rect.y))
-    #paddle 2 follows the lowest ball
+
+                
 
     all_sprites_group.update()
     all_sprites_group.draw(screen)
+    # print "hep"
     pygame.display.flip()
 
 
