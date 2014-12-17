@@ -100,13 +100,13 @@ while not(done):
         pygame.display.quit()
         print "You lose a point"
         score -= 1
-        ball.reset()
+        ball.reset((400,320),(1,3))
     #add tkinter interface and then allow to reset the game?
     elif ball.rect.y > 640-16-32:
         pygame.display.quit()
         print "You win a point"
         score += 1
-        ball.reset()
+        ball.reset((400,320),(1,3))
     if score >5:
         print " You win the match"
         break
