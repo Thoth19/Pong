@@ -1,5 +1,6 @@
 from ball import*
 from paddle import*
+from wall import*
 import math,os,pygame
 
 pygame.init()
@@ -8,6 +9,7 @@ clock = pygame.time.Clock()
 
 ball_group=pygame.sprite.Group()
 paddle_group = pygame.sprite.Group()
+wall_group = pygame.sprite.Group()
 all_sprites_group = pygame.sprite.Group()
 
 p1 = PaddleSprite((32,32))
@@ -19,6 +21,13 @@ all_sprites_group.add(p2)
 ball = BallSprite((400,300),(1,3))
 ball_group.add(ball)
 all_sprites_group.add(ball)
+for i in range(50):
+    for j in range(38):
+        if j == 0 or j == 37 or i == 0 or i == 49:
+            wall = WallSprite((i*16,j*16))
+            wall_group.add(wall)
+            all_sprites_group.add(wall)
+    #creates walls around the game board
 
 while True:
     clock.tick(60)
@@ -48,16 +57,20 @@ while True:
                             ball.x_dir()
                         elif p.rect.x+43<=ball.rect.x<=p.rect.x+85:
                             ball.velocity = 0, ball.velocity[1]
+                        else:
+                            # ball.x_dir()
+                            pass
                         # in the third case we doint vhange velocity
                         print 1
-                    elif ball.vel_dir[0] < 0:                        
-                        if ball.rect.x < p.rect.x+43:
-                            ball.x_dir()
-                        elif p.rect.x+43<=ball.rect.x<=p.rect.x+85:
-                            ball.velocity = 0,ball.velocity[1]
-                        print 2
                     ball.rect.x = old_x
                 #if moving in x stops a y collision fix this
+            hit_x = False
+            for w in wall_group:
+                if ball.rect.colliderect(w.rect):
+                    ball.x_dir()
+                    hit_x = True
+                    print "hit side"
+                    break
         if ball.velocity[1] != 0:
             ball.rect.y += ball.velocity[1] * ball.vel_dir[1]
             for p in paddle_group:
@@ -70,9 +83,25 @@ while True:
                         ball.rect.top = p.rect.bottom
                         ball.y_dir()
                         print 4
-                    ball.velocity = ball.velocity[0], ball.velocity[1] + 1
+                    if ball.velocity[0] == 0:
+                        if ball.rect.x < p.rect.x+43:
+                            ball.x_dir()
+                            ball.velocity = ball.velocity[0] + 1, ball.velocity[1]
+                        elif p.rect.x+43<=ball.rect.x<=p.rect.x+85:
+                            pass
+                        else:
+                            ball.velocity = ball.velocity[0] + 1, ball.velocity[1]
+            for w in wall_group:
+                if ball.rect.colliderect(w.rect) and not(hit_x):
+                    ball.y_dir()
+                    print "hit top/bottom"
+                    break
+                else:
+                    pass
+            ball.velocity = ball.velocity[0], ball.velocity[1] + 1
         if ball.rect.y > lowest_ball.rect.y:
             lowest_ball = ball
+            
     if p2.rect.x < lowest_ball.rect.x:
         p2.move((p2.rect.x + min(5,abs(lowest_ball.rect.x-p2.rect.x)),p2.rect.y))
     elif p2.rect.x > lowest_ball.rect.x:
