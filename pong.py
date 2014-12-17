@@ -29,6 +29,7 @@ for i in range(50):
             all_sprites_group.add(wall)
     #creates walls around the game board, only on edges
 done = False
+score = 0 
 while not(done):
     clock.tick(60) #limits FPS
     screen.fill((255,0,0)) #resets screen. should only refresh changed bits
@@ -97,12 +98,20 @@ while not(done):
 
     if ball.rect.y < 32:
         pygame.display.quit()
-        print "You lose"
-        break
+        print "You lose a point"
+        score -= 1
+        ball.reset()
     #add tkinter interface and then allow to reset the game?
     elif ball.rect.y > 640-16-32:
         pygame.display.quit()
-        print "You win"
+        print "You win a point"
+        score += 1
+        ball.reset()
+    if score >5:
+        print " You win the match"
+        break
+    elif score <-5:
+        print "You lose the match"
         break
         
     if p2.rect.x + p2.rect.width< lowest_ball.rect.x + lowest_ball.rect.width /2:
