@@ -105,20 +105,12 @@ while not(done):
     if ball.rect.y < 32:
         pygame.display.quit()
         print "You lose a point"
-        score -= 1
-        ball.reset((400,320),(1,3))
+        
     #add tkinter interface and then allow to reset the game?
     elif ball.rect.y > 640-16-32:
         pygame.display.quit()
         print "You win a point"
-        score += 1
-        ball.reset((400,320),(1,3))
-    if score >5:
-        print " You win the match"
-        break
-    elif score <-5:
-        print "You lose the match"
-        break
+        
         
     if p2.rect.x + p2.rect.width< lowest_ball.rect.x + lowest_ball.rect.width /2:
         p2.move((p2.rect.x + min(5,abs(lowest_ball.rect.x-p2.rect.x)),p2.rect.y))
