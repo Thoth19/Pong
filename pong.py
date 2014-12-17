@@ -4,7 +4,7 @@ from wall import*
 import math,os,pygame
 
 pygame.init()
-screen = pygame.display.set_mode([800,600])
+screen = pygame.display.set_mode([800,640])
 clock = pygame.time.Clock()
 
 ball_group=pygame.sprite.Group()
@@ -15,21 +15,21 @@ all_sprites_group = pygame.sprite.Group()
 p1 = PaddleSprite((32,32))
 paddle_group.add(p1)
 all_sprites_group.add(p1)
-p2 = PaddleSprite((350,534))
+p2 = PaddleSprite((350,640-16-32))
 paddle_group.add(p2)
 all_sprites_group.add(p2)
-ball = BallSprite((400,300),(1,3))
+ball = BallSprite((400,320),(1,3))
 ball_group.add(ball)
 all_sprites_group.add(ball)
 for i in range(50):
-    for j in range(38):
-        if j == 0 or j == 37 or i == 0 or i == 49:
+    for j in range(40):
+        if j == 0 or j == 39 or i == 0 or i == 49:
             wall = WallSprite((i*16,j*16))
             wall_group.add(wall)
             all_sprites_group.add(wall)
     #creates walls around the game board
-
-while True:
+done = False
+while not(done):
     clock.tick(60)
     screen.fill((255,0,0))
     # key = pygame.key.get_pressed()
@@ -61,7 +61,7 @@ while True:
                             # ball.x_dir()
                             pass
                         # in the third case we doint vhange velocity
-                        print 1
+                        # print 1
                     ball.rect.x = old_x
                 #if moving in x stops a y collision fix this
             hit_x = False
@@ -69,7 +69,7 @@ while True:
                 if ball.rect.colliderect(w.rect):
                     ball.x_dir()
                     hit_x = True
-                    print "hit side"
+                    # print "hit side"
                     break
         if ball.velocity[1] != 0:
             ball.rect.y += ball.velocity[1] * ball.vel_dir[1]
@@ -78,11 +78,11 @@ while True:
                     if ball.vel_dir[1] > 0:
                         ball.rect.bottom = p.rect.top
                         ball.y_dir()
-                        print 3
+                        # print 3
                     elif ball.vel_dir[1] < 0:
                         ball.rect.top = p.rect.bottom
                         ball.y_dir()
-                        print 4
+                        # print 4
                     if ball.velocity[0] == 0:
                         if ball.rect.x < p.rect.x+43:
                             ball.x_dir()
@@ -94,7 +94,6 @@ while True:
             for w in wall_group:
                 if ball.rect.colliderect(w.rect) and not(hit_x):
                     ball.y_dir()
-                    print "hit top/bottom"
                     break
                 else:
                     pass
@@ -102,6 +101,16 @@ while True:
         if ball.rect.y > lowest_ball.rect.y:
             lowest_ball = ball
 
+    if ball.rect.y < 32:
+        pygame.display.quit()
+        print "You lose"
+        break
+    #add tkinter interface and then allow to reset the game?
+    elif ball.rect.y > 640-16-32:
+        pygame.display.quit()
+        print "You win"
+        break
+        
     if p2.rect.x + p2.rect.width< lowest_ball.rect.x + lowest_ball.rect.width /2:
         p2.move((p2.rect.x + min(5,abs(lowest_ball.rect.x-p2.rect.x)),p2.rect.y))
     elif p2.rect.x > lowest_ball.rect.x:
@@ -113,6 +122,5 @@ while True:
     all_sprites_group.draw(screen)
     # print "hep"
     pygame.display.flip()
-
 
 
