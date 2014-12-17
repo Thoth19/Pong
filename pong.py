@@ -101,8 +101,8 @@ while True:
             ball.velocity = ball.velocity[0], ball.velocity[1] + 1
         if ball.rect.y > lowest_ball.rect.y:
             lowest_ball = ball
-            
-    if p2.rect.x < lowest_ball.rect.x:
+
+    if p2.rect.x + p2.rect.width< lowest_ball.rect.x + lowest_ball.rect.width /2:
         p2.move((p2.rect.x + min(5,abs(lowest_ball.rect.x-p2.rect.x)),p2.rect.y))
     elif p2.rect.x > lowest_ball.rect.x:
         p2.move((p2.rect.x - min(5,abs(lowest_ball.rect.x-p2.rect.x)),p2.rect.y))
